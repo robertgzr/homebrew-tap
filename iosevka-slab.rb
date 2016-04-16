@@ -1,5 +1,5 @@
 class IosevkaSlab < Formula
-  version "1.8.3"
+  version "1.8.4"
   desc "Spatial efficient monospace font family for programming. Built from code."
   homepage "http://be5invis.github.io/Iosevka"
   url "https://github.com/be5invis/Iosevka/releases/download/v#{version}/04.iosevka-slab-#{version}.zip"
