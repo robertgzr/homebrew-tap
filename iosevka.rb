@@ -6,7 +6,7 @@ class Iosevka < Formula
 
   stable do
     gh_url = "https://github.com/be5invis/Iosevka/releases/download"
-    version = "1.8.5"
+    version = "1.8.6"
 
     url "#{gh_url}/v#{version}/01.iosevka-#{version}.zip"
     sha256 "abc7531632907bd7df017a7870c4fdf82d55331fb78d3f246d0b7bca48764291"
