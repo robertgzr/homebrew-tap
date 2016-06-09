@@ -23,7 +23,7 @@ class Iosevka < Formula
 
     resource "slab" do
       url "#{gh_url}/v#{version}/04.iosevka-slab-#{version}.zip"
-      sha256 "5df02e6cb341ca4f33e591955ed0152c17457eca76b04d085a4d40ee5858c952"
+      sha256 "ff3e3013ee173d04a9a501d94cdfe04f013047d56866b8521b9c0b69e6865558"
     end
 
     resource "term-slab" do
