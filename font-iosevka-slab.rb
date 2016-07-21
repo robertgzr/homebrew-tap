@@ -1,13 +1,13 @@
 cask "font-iosevka-slab" do
-  version "1.8.5"
-  sha256 "5df02e6cb341ca4f33e591955ed0152c17457eca76b04d085a4d40ee5858c952"
+  version "1.9.1"
+  sha256 "dd8950614acf01b829db5243d1cde5169d4e153b3aece3b13b470632287ca3bd"
 
   url "https://github.com/be5invis/Iosevka/releases/download/v#{version}/04.iosevka-slab-#{version}.zip"
   name "Iosevka Slab"
   homepage "https://github.com/be5invis/Iosevka/"
   license :ofl
 
-  Dir["/opt/homebrew-cask/Caskroom/font-iosevka-slab/#{version}/*.ttf"].each do |f|
-    font f, target: "iosevka-slab/#{f.gsub("/opt/homebrew-cask/Caskroom/font-iosevka-slab/1.8.5/", "")}"
+  Dir["#{caskroom_path}/#{version}/*.ttf"].each do |f|
+    font f, target: "iosevka-slab/#{f.gsub("#{caskroom_path}/#{version}/", "")}"
   end
 end
