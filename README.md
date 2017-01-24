@@ -6,13 +6,10 @@
 ├── bootloadhid.rb
 ├── casks
 │   ├── font-iosevka-inziu.rb
-│   ├── font-iosevka-slab.rb
-│   ├── font-iosevka.rb
 │   └── font-noto-mono.rb
 ├── chromium-build.rb
 ├── hwmonitor.rb
 ├── iosevka.rb
-├── nvc.rb
 └── simulavr.rb
 ```
 
@@ -22,7 +19,10 @@
 The formula uses my fork of the original repository by [ajd4096](https://github.com/ajd4096), that adds a simple build switch.
 
 ## iosevka.rb
-This formula generates the font from the source repository. To simply download and install the newest version it's easier to use the `casks`
+This formula builds the font from source. 
 
-## nvc.rb
-The pull request to get it into the main homebrew-repository is pending...
+If you don't want to make any modifications you can also just download and install:
+```bash
+$ brew tap caskroom/fonts
+$ brew cask install font-iosevka
+```
