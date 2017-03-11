@@ -3,7 +3,9 @@ require "language/node"
 class Iosevka < Formula
   desc "Monospace font family for programming built from code."
   homepage "https://be5invis.github.io/Iosevka"
-  url "https://github.com/be5invis/Iosevka/archive/v1.11.0.zip"
+  url "https://github.com/be5invis/Iosevka/archive/v1.11.3.zip"
+  sha256 "a95458198afceb84b6737ea069056aa8bfafa6432d14e9eb9a136b1bd31abe68"
+
   head "https://github.com/be5invis/Iosevka.git"
 
   option "with-test", "only builds the regular weight of each style - for testing"
@@ -40,6 +42,13 @@ class Iosevka < Formula
   end
 
   def install
+    font_dir = "/Users/#{ENV["USER"]}/Library/Fonts/iosevka/"
+    # check if iosevka is installed and remove the old version
+    # if Dir[font_dir/"*"].exist? then
+    #   File.foreach(Dir[font_dir/"**/*"]) do |fn|
+    #     fn.delete
+    #   end
+    # end
     # zero options
     v_zero = "v-zero-"
     if build.with? "zero-dotted"
@@ -157,7 +166,7 @@ class Iosevka < Formula
     share.install Dir["dist/*"]
     # link ttfs into User font folder
     mkdir_p "/Users/#{ENV["USER"]}/Library/Fonts/iosevka"
-    ln_sf Dir[share/"*"], "/Users/#{ENV["USER"]}/Library/Fonts/iosevka/"
+    ln_sf Dir[share/"*"], font_dir
   end
 
   test do
