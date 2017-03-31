@@ -3,9 +3,8 @@ require "language/node"
 class Iosevka < Formula
   desc "Monospace font family for programming built from code."
   homepage "https://be5invis.github.io/Iosevka"
-  url "https://github.com/be5invis/Iosevka/archive/v1.11.3.zip"
-  sha256 "a95458198afceb84b6737ea069056aa8bfafa6432d14e9eb9a136b1bd31abe68"
-
+  url "https://github.com/be5invis/Iosevka/archive/v1.12.0.zip"
+  sha256 "f39471ae8fdb4e1ed965f7650f7851ebaf717f62c75239a0f0271b138ebc037a"
   head "https://github.com/be5invis/Iosevka.git"
 
   option "with-test", "only builds the regular weight of each style - for testing"
@@ -23,7 +22,14 @@ class Iosevka < Formula
   option "with-asterisk-low"
   option "with-paragraph-low"
   option "with-caret-low"
+  option "with-underscore-low"
   option "with-eszet-traditional", "use old eszet glyph"
+  option "with-g-singlestorey"
+  option "with-g-opendoublestorey"
+  option "with-numbersign-slanted"
+  option "with-dollar-open"
+  option "with-q-straight"
+  option "with-t-cross"
 
   depends_on "node" => :build
   depends_on "ttfautohint" => :build
@@ -69,6 +75,16 @@ class Iosevka < Formula
       v_at += "short"
     end
 
+    # g options
+    v_g = "v-g-"
+    if build.with? "g-singlestorey"
+      v_g += "singlestorey"
+    elsif build.with? "g-opendoublestorey"
+      v_g += "opendoublestorey"
+    else
+      v_g += "doublestorey"
+    end
+
     # tilde options
     v_tilde = "v-tilde-"
     if build.with? "tilde-high"
@@ -101,6 +117,14 @@ class Iosevka < Formula
       v_caret += "high"
     end
 
+    # underscore options
+    v_underscore = "v-underscore-"
+    if build.with? "underscore-low"
+      v_underscore += "low"
+    else
+      v_underscore += "high"
+    end
+
     # eszet options
     v_eszet = "v-eszet-"
     if build.with? "eszet-traditional"
@@ -109,14 +133,56 @@ class Iosevka < Formula
       v_eszet += "sulzbacher"
     end
 
+    v_brace = "v-brace-"
+    if build.with? "brace-straight"
+      v_brace += "straight"
+    else
+      v_brace += "curly"
+    end
+
+    v_numbersign = "v-numbersign-"
+    if build.with? "numbersign-slanted"
+      v_numbersign += "slanted"
+    else
+      v_numbersign += "straight"
+    end
+
+    v_dollar = "v-dollar-"
+    if build.with? "dollar-open"
+      v_dollar += "open"
+    else
+      v_dollar += "through"
+    end
+
+    v_t = "v-t-"
+    if build.with? "-cross"
+      v_t += "cross"
+    else
+      v_t += "standard"
+    end
+
+    v_q = "v-q-"
+    if build.with? "q-straight"
+      v_q += "straight"
+    else
+      v_q += "taily"
+    end
+
     upright = %W[
+      #{v_g}
+      #{v_t}
+      #{v_q}
       #{v_zero}
-      #{v_at}
       #{v_tilde}
       #{v_asterisk}
+      #{v_underscore}
       #{v_paragraph}
       #{v_caret}
+      #{v_at}
       #{v_eszet}
+      #{v_brace}
+      #{v_dollar}
+      #{v_numbersign}
     ]
 
     args = %w[]
