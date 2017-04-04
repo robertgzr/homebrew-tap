@@ -3,8 +3,8 @@ require "language/node"
 class Iosevka < Formula
   desc "Monospace font family for programming built from code."
   homepage "https://be5invis.github.io/Iosevka"
-  url "https://github.com/be5invis/Iosevka/archive/v1.12.0.zip"
-  sha256 "f39471ae8fdb4e1ed965f7650f7851ebaf717f62c75239a0f0271b138ebc037a"
+  url "https://github.com/be5invis/Iosevka/archive/v1.12.2.zip"
+  sha256 "0e3a567f2656a5399b1d43cfd18903d519c4af3a7e4b37427e6d16904e7c77cf"
   head "https://github.com/be5invis/Iosevka.git"
 
   option "with-test", "only builds the regular weight of each style - for testing"
@@ -30,6 +30,9 @@ class Iosevka < Formula
   option "with-dollar-open"
   option "with-q-straight"
   option "with-t-cross"
+
+  option "with-experimental-expanded", "build with 15% wider characters"
+  option "with-experimental-compressed", "build with even more compressed characters"
 
   depends_on "node" => :build
   depends_on "ttfautohint" => :build
@@ -185,8 +188,17 @@ class Iosevka < Formula
       #{v_numbersign}
     ]
 
+    poststyle = ""
+    if build.with? "experimental-compressed"
+      poststyle += "compressed"
+    end
+    if build.with? "experimental-expanded"
+      poststyle += "expanded"
+    end
+
     args = %w[]
     args << "upright=#{upright.join(" ")}" unless upright.empty?
+    args << "poststyle=#{poststyle}" unless poststyle.empty?
 
     system "npm", "install", *Language::Node.local_npm_install_args
     system "make", "custom-config", "set=brew", *args
