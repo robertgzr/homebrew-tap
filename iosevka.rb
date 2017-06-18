@@ -14,16 +14,16 @@ class Iosevka < Formula
   # option "with-term", "additionally build the non-ligature variant"
   # option "with-cc", "additionally build the CC variant"
 
-  option "with-zero-dotted", "use dotted zero glyph"
-  option "with-zero-unslashed", "use O-like zero glyph"
-  option "with-at-long", "use long, three-fold At symbol in Iosevka 1.7.x"
-  option "with-at-fourfold", "use traditional, four-fold At symbol"
+  option "with-zero-dotted"
+  option "with-zero-unslashed"
+  option "with-at-long"
+  option "with-at-fourfold"
   option "with-tilde-high"
   option "with-asterisk-low"
   option "with-paragraph-low"
   option "with-caret-low"
   option "with-underscore-low"
-  option "with-eszet-traditional", "use old eszet glyph"
+  option "with-eszet-traditional"
   option "with-g-singlestorey"
   option "with-g-opendoublestorey"
   option "with-numbersign-slanted"
@@ -42,12 +42,12 @@ class Iosevka < Formula
 
   resource "sfnt2woff" do
     url "https://github.com/ppicazo/sfnt2woff.git"
-    sha256 "1898e24afc18bb63b11698095d8a45169df9496e"
+    sha256 "dab5d8bc14d79b0b4594bb97adcc2604079c1909112b96c2ba7787a30a5efe49"
   end
 
   resource "woff2" do
     url "https://github.com/google/woff2.git"
-    sha256 "b91b020ced3b0dc03a3d8c721ddbae811324f6fa"
+    sha256 "f540cc24cacf399c6153e81e5d582669192873b4240c480e13a43c8db5801939"
   end
 
   def install
@@ -58,6 +58,7 @@ class Iosevka < Formula
     #     fn.delete
     #   end
     # end
+
     # zero options
     v_zero = "v-zero-"
     if build.with? "zero-dotted"
@@ -136,6 +137,7 @@ class Iosevka < Formula
       v_eszet += "sulzbacher"
     end
 
+    # brace options
     v_brace = "v-brace-"
     if build.with? "brace-straight"
       v_brace += "straight"
@@ -143,6 +145,7 @@ class Iosevka < Formula
       v_brace += "curly"
     end
 
+    # numbersign options
     v_numbersign = "v-numbersign-"
     if build.with? "numbersign-slanted"
       v_numbersign += "slanted"
@@ -150,6 +153,7 @@ class Iosevka < Formula
       v_numbersign += "straight"
     end
 
+    # dollar options
     v_dollar = "v-dollar-"
     if build.with? "dollar-open"
       v_dollar += "open"
@@ -157,6 +161,7 @@ class Iosevka < Formula
       v_dollar += "through"
     end
 
+    # t options
     v_t = "v-t-"
     if build.with? "-cross"
       v_t += "cross"
@@ -164,6 +169,7 @@ class Iosevka < Formula
       v_t += "standard"
     end
 
+    # q options
     v_q = "v-q-"
     if build.with? "q-straight"
       v_q += "straight"
@@ -189,12 +195,8 @@ class Iosevka < Formula
     ]
 
     poststyle = ""
-    if build.with? "experimental-compressed"
-      poststyle += "compressed"
-    end
-    if build.with? "experimental-expanded"
-      poststyle += "expanded"
-    end
+    poststyle = "compressed" if build.with? "experimental-compressed"
+    poststyle = "expanded" if build.with? "experimental-expanded"
 
     args = %w[]
     args << "upright=#{upright.join(" ")}" unless upright.empty?
