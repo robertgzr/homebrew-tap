@@ -61,121 +61,65 @@ class Iosevka < Formula
 
     # zero options
     v_zero = "v-zero-"
-    if build.with? "zero-dotted"
-      v_zero += "dotted"
-    elsif build.with? "zero-unslashed"
-      v_zero += "unslashed"
-    else
-      v_zero += "slashed"
-    end
+    v_zero += "dotted" if build.with? "zero-dotted"
+    v_zero += "unslashed" if build.with? "zero-unslashed"
+    v_zero += "slashed" unless (build.with? "zero-dotted") && (build.with? "zero-unslashed")
 
     # at options
     v_at = "v-at-"
-    if build.with? "at-long"
-      v_at += "long"
-    elsif build.with? "at-fourfold"
-      v_at += "fourfold"
-    else
-      v_at += "short"
-    end
+    v_at += "long" if build.with? "at-long"
+    v_at += "fourfold" if build.with? "at-fourfold"
+    v_at += "short" unless (build.with? "at-long") && (build.with? "at-fourfold")
 
     # g options
     v_g = "v-g-"
-    if build.with? "g-singlestorey"
-      v_g += "singlestorey"
-    elsif build.with? "g-opendoublestorey"
-      v_g += "opendoublestorey"
-    else
-      v_g += "doublestorey"
-    end
+    v_g += "singlestorey" if build.with? "g-singlestorey"
+    v_g += "opendoublestorey" if build.with? "g-opendoublestorey"
+    v_g += "doublestorey" unless (build.with? "g-singlestorey") && (build.with? "g-opendoublestorey")
 
     # tilde options
     v_tilde = "v-tilde-"
-    if build.with? "tilde-high"
-      v_tilde += "high"
-    else
-      v_tilde += "low"
-    end
+    v_tilde += (build.with? "tilde-high") && "high" || "low"
 
     # asterisk options
     v_asterisk = "v-asterisk-"
-    if build.with? "asterisk-low"
-      v_asterisk += "low"
-    else
-      v_asterisk += "high"
-    end
+    v_asterisk += (build.with? "asterisk-low") && "low" || "high"
 
     # paragraph options
     v_paragraph = "v-paragraph-"
-    if build.with? "paragraph-low"
-      v_paragraph += "low"
-    else
-      v_paragraph += "high"
-    end
+    v_paragraph += (build.with? "paragraph-low") && "low" || "high"
 
     # caret options
     v_caret = "v-caret-"
-    if build.with? "caret-low"
-      v_caret += "low"
-    else
-      v_caret += "high"
-    end
+    v_caret += (build.with? "caret-low") && "low" || "high"
 
     # underscore options
     v_underscore = "v-underscore-"
-    if build.with? "underscore-low"
-      v_underscore += "low"
-    else
-      v_underscore += "high"
-    end
+    v_underscore += (build.with? "underscore-low") && "low" || "high"
 
     # eszet options
     v_eszet = "v-eszet-"
-    if build.with? "eszet-traditional"
-      v_eszet += "traditional"
-    else
-      v_eszet += "sulzbacher"
-    end
+    v_eszet += (build.with? "eszet-traditional") && "traditional" || "sulzbacher"
 
     # brace options
     v_brace = "v-brace-"
-    if build.with? "brace-straight"
-      v_brace += "straight"
-    else
-      v_brace += "curly"
-    end
+    v_brace += (build.with? "brace-straight") && "straight" || "curly"
 
     # numbersign options
     v_numbersign = "v-numbersign-"
-    if build.with? "numbersign-slanted"
-      v_numbersign += "slanted"
-    else
-      v_numbersign += "straight"
-    end
+    v_numbersign += (build.with? "numbersign-slanted") && "slanted" || "straight"
 
     # dollar options
     v_dollar = "v-dollar-"
-    if build.with? "dollar-open"
-      v_dollar += "open"
-    else
-      v_dollar += "through"
-    end
+    v_dollar += (build.with? "dollar-open") && "open" || "through"
 
     # t options
     v_t = "v-t-"
-    if build.with? "-cross"
-      v_t += "cross"
-    else
-      v_t += "standard"
-    end
+    v_t += (build.with? "-cross") && "cross" || "standard"
 
     # q options
     v_q = "v-q-"
-    if build.with? "q-straight"
-      v_q += "straight"
-    else
-      v_q += "taily"
-    end
+    v_q += (build.with? "q-straight") && "straight" || "taily"
 
     upright = %W[
       #{v_g}
