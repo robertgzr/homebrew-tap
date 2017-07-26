@@ -1,4 +1,5 @@
-**New and/or modified brew formulas**
+### How to use this repository?
+https://github.com/Homebrew/brew/blob/master/docs/brew-tap.md
 
 ```
 .
@@ -12,8 +13,6 @@
 ├── iosevka.rb
 └── simulavr.rb
 ```
-
-### notes:
 
 ## bootloadhid.rb
 The formula uses my fork of the original repository by [ajd4096](https://github.com/ajd4096), that adds a simple build switch.
@@ -37,9 +36,9 @@ So far you can modify the upright style glyphs for:
   * letter `Q` (2 variants)
   * letter `t` (2 variants)
 
-TODO: *`l` `i` `a` `m` glyph variants, `term` and `cc` styles, webfonts*
+**TODO:** *`l` `i` `a` `m` glyph variants, `term`, `type` and `stress-fw` styles, webfonts*
 
-We use the [standard options](https://github.com/be5invis/Iosevka#build-your-own-style) by default.
+The formula builds with [standard options](https://github.com/be5invis/Iosevka#build-your-own-style) by default.
 
 If you don't want to make any modifications you can also just download and install:
 ```bash
