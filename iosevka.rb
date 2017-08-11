@@ -29,6 +29,13 @@ class Iosevka < Formula
   option "with-dollar-open"
   option "with-q-straight"
   option "with-t-cross"
+  option "with-3-flattop"
+  option "with-a-singlestorey"
+  option "with-m-shortleg"
+  # option "with-l-hooky"
+  # option "with-l-zshaped"
+  # option "with-i-hooky"
+  # option "with-i-zshaped"
 
   option "with-experimental-expanded", "build with 15% wider characters"
   option "with-experimental-compressed", "build with even more compressed characters"
@@ -102,16 +109,30 @@ class Iosevka < Formula
 
     # t options
     v_t = "v-t-"
-    v_t += (build.with? "-cross") && "cross" || "standard"
+    v_t += (build.with? "t-cross") && "cross" || "standard"
 
     # q options
     v_q = "v-q-"
     v_q += (build.with? "q-straight") && "straight" || "taily"
 
+    # 3 options
+    v_three = "v-three-"
+    v_three += (build.with? "3-flattop") && "flattop" || "twoarcs"
+
+    # a options
+    v_a = "v-a-"
+    v_a += (build.with? "a-singlestorey") && "singlestorey" || "doublestorey"
+
+    # m options
+    v_m = "v-m-"
+    v_m += (build.with? "m-shortleg") && "shortleg" || "longleg"
+
     upright = %W[
       #{v_g}
       #{v_t}
       #{v_q}
+      #{v_a}
+      #{v_m}
       #{v_zero}
       #{v_tilde}
       #{v_asterisk}
@@ -123,6 +144,7 @@ class Iosevka < Formula
       #{v_brace}
       #{v_dollar}
       #{v_numbersign}
+      #{v_three}
     ]
 
     poststyle = ""

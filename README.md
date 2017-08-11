@@ -35,8 +35,13 @@ So far you can modify the upright style glyphs for:
   * letter `g` (3 variants)
   * letter `Q` (2 variants)
   * letter `t` (2 variants)
+  * letter `a` (2 variants)
+  * letter `m` (2 variants)
+  * number `3` (2 variants)
 
-**TODO:** *`l` `i` `a` `m` glyph variants, `term`, `type` and `stress-fw` styles, webfonts*
+It is possible to also build Iosevka Slab and the `.woff` web fonts (with the same variants set).
+
+**TODO:** *`l` `i` glyph variants, `term`, `type` and `stress-fw` styles*
 
 The formula builds with [standard options](https://github.com/be5invis/Iosevka#build-your-own-style) by default.
 
