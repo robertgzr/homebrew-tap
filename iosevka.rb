@@ -7,9 +7,8 @@ class Iosevka < Formula
   sha256 "bba7284dbff9abd778926ccacd8aa4d001dbb817d8bc5e8bad6b7086e7bccef0"
   head "https://github.com/be5invis/Iosevka.git"
 
-  option "with-test", "only builds the regular weight of each style - for testing"
   option "with-slab", "additionally build the serif variant"
-  # option "with-webfonts", "additionally build the webfonts"
+  option "with-webfonts", "additionally build the webfonts"
 
   # option "with-term", "additionally build the non-ligature variant"
   # option "with-cc", "additionally build the CC variant"
@@ -39,43 +38,31 @@ class Iosevka < Formula
   depends_on "caryll/tap/otfcc-mac64" => :build
 
   depends_on "cmake" => :build if build.with? "webfonts"
+  depends_on "robertgzr/homebrew-tap/woff2" => :build if build.with? "webfonts"
 
   resource "sfnt2woff" do
     url "https://github.com/ppicazo/sfnt2woff.git"
     sha256 "dab5d8bc14d79b0b4594bb97adcc2604079c1909112b96c2ba7787a30a5efe49"
   end
 
-  resource "woff2" do
-    url "https://github.com/google/woff2.git"
-    sha256 "f540cc24cacf399c6153e81e5d582669192873b4240c480e13a43c8db5801939"
-  end
-
   def install
-    font_dir = "/Users/#{ENV["USER"]}/Library/Fonts/iosevka/"
-    # check if iosevka is installed and remove the old version
-    # if Dir[font_dir/"*"].exist? then
-    #   File.foreach(Dir[font_dir/"**/*"]) do |fn|
-    #     fn.delete
-    #   end
-    # end
-
     # zero options
     v_zero = "v-zero-"
     v_zero += "dotted" if build.with? "zero-dotted"
     v_zero += "unslashed" if build.with? "zero-unslashed"
-    v_zero += "slashed" unless (build.with? "zero-dotted") && (build.with? "zero-unslashed")
+    v_zero += "slashed" unless (build.with? "zero-dotted") || (build.with? "zero-unslashed")
 
     # at options
     v_at = "v-at-"
     v_at += "long" if build.with? "at-long"
     v_at += "fourfold" if build.with? "at-fourfold"
-    v_at += "short" unless (build.with? "at-long") && (build.with? "at-fourfold")
+    v_at += "short" unless (build.with? "at-long") || (build.with? "at-fourfold")
 
     # g options
     v_g = "v-g-"
     v_g += "singlestorey" if build.with? "g-singlestorey"
     v_g += "opendoublestorey" if build.with? "g-opendoublestorey"
-    v_g += "doublestorey" unless (build.with? "g-singlestorey") && (build.with? "g-opendoublestorey")
+    v_g += "doublestorey" unless (build.with? "g-singlestorey") || (build.with? "g-opendoublestorey")
 
     # tilde options
     v_tilde = "v-tilde-"
@@ -149,48 +136,39 @@ class Iosevka < Formula
     system "npm", "install", *Language::Node.local_npm_install_args
     system "make", "custom-config", "set=brew", *args
 
-    # keep around for debugging
-    if build.with? "test"
-      system "make", "dist/iosevka-brew/iosevka-brew-regular.ttf", "set=brew", "__IOSEVKA_CUSTOM_BUILD__=true"
-      system "make", "dist/iosevka-brew/iosevka-brew-italic.ttf", "set=brew", "__IOSEVKA_CUSTOM_BUILD__=true"
-      system "make", "dist/iosevka-brew/iosevka-brew-oblique.ttf", "set=brew", "__IOSEVKA_CUSTOM_BUILD__=true"
-    else
-      system "make", "custom", "set=brew"
-    end
+    system "make", "custom", "set=brew"
 
     if build.with? "slab"
       system "make", "custom-config", "set=brew-slab", "design=slab", *args
-      if build.with? "test"
-        system "make", "dist/iosevka-brew-slab/iosevka-brew-slab-regular.ttf", "set=brew-slab", "__IOSEVKA_CUSTOM_BUILD__=true"
-        system "make", "dist/iosevka-brew-slab/iosevka-brew-slab-italic.ttf", "set=brew-slab", "__IOSEVKA_CUSTOM_BUILD__=true"
-        system "make", "dist/iosevka-brew-slab/iosevka-brew-slab-oblique.ttf", "set=brew-slab", "__IOSEVKA_CUSTOM_BUILD__=true"
-      else
-        system "make", "custom", "set=brew-slab"
-      end
+      system "make", "custom", "set=brew-slab"
     end
 
     if build.with? "webfonts"
       resource("sfnt2woff").stage buildpath/"webfontbin/sfnt2woff"
-      resource("woff2").stage buildpath/"webfontbin/woff2"
       chdir "#{buildpath}/webfontbin/sfnt2woff" do
         mkdir "build" do
           system "cmake", ".."
           system "make"
         end
       end
-      chdir "#{buildpath}/webfontbin/woff2" do
-        system "make"
-      end
       ENV.prepend_path "PATH", "#{buildpath}/webfontbin/sfnt2woff/build"
-      ENV.prepend_path "PATH", "#{buildpath}/webfontbin/woff2/"
 
-      system "make", "custom-web"
+      system "make", "custom-web", "set=brew"
+      if build.with? "slab"
+        system "make", "custom-web", "set=brew-slab"
+      end
     end
 
     share.install Dir["dist/*"]
-    # link ttfs into User font folder
-    mkdir_p "/Users/#{ENV["USER"]}/Library/Fonts/iosevka"
-    ln_sf Dir[share/"*"], font_dir
+  end
+
+  def caveats
+    <<-EOS.undent
+      Homebrew does not allow Formulas to move files to arbitrary locations in the filesystem.
+      To install the font please do: 
+
+      cp -fr #{share} ~/Library/Fonts/iosevka
+    EOS
   end
 
   test do
