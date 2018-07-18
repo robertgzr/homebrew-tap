@@ -134,31 +134,27 @@ class Iosevka < Formula
   def install
     prestyle = Array.new
 
-    ss = nil
-    ss = "ss01" if build.with? "ss01"
-    ss = "ss02" if build.with? "ss02"
-    ss = "ss03" if build.with? "ss03"
-    ss = "ss04" if build.with? "ss04"
-    ss = "ss05" if build.with? "ss05"
-    ss = "ss06" if build.with? "ss06"
-    ss = "ss07" if build.with? "ss07"
-    ss = "ss08" if build.with? "ss08"
-    ss = "ss09" if build.with? "ss09"
-    ss = "ss10" if build.with? "ss10"
-    ss = "ss11" if build.with? "ss11"
-    prestyle << ss unless ss.empty?
+    prestyle << "ss01" if build.with? "ss01"
+    prestyle << "ss02" if build.with? "ss02"
+    prestyle << "ss03" if build.with? "ss03"
+    prestyle << "ss04" if build.with? "ss04"
+    prestyle << "ss05" if build.with? "ss05"
+    prestyle << "ss06" if build.with? "ss06"
+    prestyle << "ss07" if build.with? "ss07"
+    prestyle << "ss08" if build.with? "ss08"
+    prestyle << "ss09" if build.with? "ss09"
+    prestyle << "ss10" if build.with? "ss10"
+    prestyle << "ss11" if build.with? "ss11"
 
-    ligset = nil
-    ligset = "ligset-haskell" if build.with? "ligset-haskell"
-    ligset = "ligset-idris" if build.with? "ligset-idris"
-    ligset = "ligset-coq" if build.with? "ligset-coq"
-    ligset = "ligset-elm" if build.with? "ligset-elm"
-    ligset = "ligset-ml" if build.with? "ligset-ml"
-    ligset = "ligset-fs" if build.with? "ligset-fs"
-    ligset = "ligset-fstar" if build.with? "ligset-fstar"
-    ligset = "ligset-swift" if build.with? "ligset-swift"
-    ligset = "ligset-purescript" if build.with? "ligset-purescript"
-    prestyle << ligset unless ligset.empty?
+    prestyle << "ligset-haskell" if build.with? "ligset-haskell"
+    prestyle << "ligset-idris" if build.with? "ligset-idris"
+    prestyle << "ligset-coq" if build.with? "ligset-coq"
+    prestyle << "ligset-elm" if build.with? "ligset-elm"
+    prestyle << "ligset-ml" if build.with? "ligset-ml"
+    prestyle << "ligset-fs" if build.with? "ligset-fs"
+    prestyle << "ligset-fstar" if build.with? "ligset-fstar"
+    prestyle << "ligset-swift" if build.with? "ligset-swift"
+    prestyle << "ligset-purescript" if build.with? "ligset-purescript"
 
     prestyle << "term" if build.with? "term"
     prestyle << "termlig" if build.with? "termlig"
@@ -232,7 +228,7 @@ class Iosevka < Formula
     # args << "family=Iosevka Brew"
     args << "weights=#{weights.join(" ")}" unless weights.empty?
     args << "prestyle=#{prestyle.join(" ")}" unless prestyle.empty?
-    args << "poststyle=#{poststyle}" unless poststyle.empty?
+    args << "poststyle=#{poststyle}" unless poststyle.nil?
     args << "design=#{design.join(" ")}" unless design.empty?
 
     system "npm", "install", *Language::Node.local_npm_install_args
