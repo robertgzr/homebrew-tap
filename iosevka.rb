@@ -3,8 +3,8 @@ require "language/node"
 class Iosevka < Formula
   desc "Monospace font family for programming built from code."
   homepage "https://be5invis.github.io/Iosevka"
-  url "https://github.com/be5invis/Iosevka/archive/v1.14.0.tar.gz"
-  sha256 "638852fa0213b7ec4df8645865cba1e08618209ce427e5052bb0fdaf35104080"
+  url "https://github.com/be5invis/Iosevka/archive/v1.14.3.tar.gz"
+  sha256 "906e7a30245c4458100baef4e31e92b48e24a494b69db8b20bf8204f3b3860a5"
   head "https://github.com/be5invis/Iosevka.git"
 
   option "without-sans", "skip building the default sans variant"
@@ -103,6 +103,15 @@ class Iosevka < Formula
   option "with-i-zshaped"
   option "with-i-serified"
   option "with-i-italic"
+
+  option "with-f-straight"
+  option "with-f-tailed"
+
+  option "with-y-straight"
+  option "with-y-curly"
+
+  option "with-one-serifed"
+  option "with-one-hooky"
 
   option "without-thin", "skip building the 'thin' weight"
   option "without-extralight", "skip building the 'extralight' weight"
@@ -209,6 +218,12 @@ class Iosevka < Formula
     design << return_variant_if_build_option("i-zshaped")
     design << return_variant_if_build_option("i-serified")
     design << return_variant_if_build_option("i-italic")
+    design << return_variant_if_build_option("f-straight")
+    design << return_variant_if_build_option("f-tailed")
+    design << return_variant_if_build_option("y-straight")
+    design << return_variant_if_build_option("y-curly")
+    design << return_variant_if_build_option("one-serifed")
+    design << return_variant_if_build_option("one-hooky")
     design.delete_if {|v| v == nil} # cleanup design array
 
     poststyle = nil
