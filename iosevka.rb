@@ -1,7 +1,7 @@
 require "language/node"
 
 class Iosevka < Formula
-  desc "Monospace font family for programming built from code."
+  desc "Monospace font family for programming built from code"
   homepage "https://be5invis.github.io/Iosevka"
   # url "https://github.com/be5invis/Iosevka/archive/v2.0.0.tar.gz"
   # sha256 "4b21d376db601280a4a5ee2a7996819188e8c4a32b7e7e6de16c0a260e0b69fc"
@@ -40,8 +40,8 @@ class Iosevka < Formula
   option "with-ligset-swift", "default ligation set would be assigned to Swift"
   option "with-ligset-purescript", "default ligation set would be assigned to PureScript"
 
-  # TODO leading-*
-  # TODO powerline-*
+  # TODO: leading-*
+  # TODO: powerline-*
 
   option "with-experimental-expanded", "build with 10% wider characters"
   option "with-experimental-compressed", "build with 10% narrower characters"
@@ -140,17 +140,18 @@ class Iosevka < Formula
   def return_if_build_option(val, prefix = "")
     return "#{prefix}#{val}" if build.with? val
   end
+
   def return_variant_if_build_option(val)
     return return_if_build_option(val, "v-")
   end
 
+  depends_on "caryll/tap/otfcc-mac64" => :build
   depends_on "node" => :build
   depends_on "ttfautohint" => :build
-  depends_on "caryll/tap/otfcc-mac64" => :build
 
   def install
-    design = Array.new
-    design << "sans" unless build.without? "sans"
+    design = []
+    design << "sans" if build.with? "sans"
     design << return_if_build_option("slab")
     # predefined stylistic sets
     design << return_if_build_option("ss01")
@@ -234,37 +235,37 @@ class Iosevka < Formula
     design << return_variant_if_build_option("y-curly")
     design << return_variant_if_build_option("one-serifed")
     design << return_variant_if_build_option("one-hooky")
-    design.delete_if {|v| v == nil} # cleanup design array
+    design.delete_if &:nil? # cleanup design array
 
     # experimental width mods (can only apply one at a time)
-    with_mod = nil
+    # if both we choose expanded
     with_mod = return_if_build_option("compressed")
     with_mod = return_if_build_option("expanded")
-    design << with_mod if with_mod != nil
+    design << with_mod unless with_mod.nil?
 
     system "npm", "install", *Language::Node.local_npm_install_args
-    File.open("private-build-plans.toml", "w:UTF-8") { |f|
+    File.open("private-build-plans.toml", "w:UTF-8") do |f|
       f.puts "[buildPlans.iosevka-brew]"
       f.puts "family = \"Iosevka Brew\""
       f.puts "design = [\"#{design.join('", "')}\"]"
       f.puts "\n"
-      f.puts "[buildPlans.iosevka-brew.weights.thin]\nshape=100\ncss=100" unless build.without? "weight-thin"
-      f.puts "[buildPlans.iosevka-brew.weights.extralight]\nshape=200\ncss=200" unless build.without? "weight-extralight"
-      f.puts "[buildPlans.iosevka-brew.weights.light]\nshape=300\ncss=300" unless build.without? "weight-light"
-      f.puts "[buildPlans.iosevka-brew.weights.regular]\nshape=400\ncss=400" unless build.without? "weight-regular"
-      f.puts "[buildPlans.iosevka-brew.weights.medium]\nshape=500\ncss=500" unless build.without? "weight-medium"
-      f.puts "[buildPlans.iosevka-brew.weights.semibold]\nshape=600\ncss=600" unless build.without? "weight-semibold"
-      f.puts "[buildPlans.iosevka-brew.weights.bold]\nshape=700\ncss=700" unless build.without? "weight-bold"
-      f.puts "[buildPlans.iosevka-brew.weights.extrabold]\nshape=800\ncss=800" unless build.without? "weight-extrabold"
-      f.puts "[buildPlans.iosevka-brew.weights.heavy]\nshape=900\ncss=900" unless build.without? "weight-heavy"
+      f.puts "[buildPlans.iosevka-brew.weights.thin]\nshape=100\ncss=100" if build.with? "weight-thin"
+      f.puts "[buildPlans.iosevka-brew.weights.extralight]\nshape=200\ncss=200" if build.with? "weight-extralight"
+      f.puts "[buildPlans.iosevka-brew.weights.light]\nshape=300\ncss=300" if build.with? "weight-light"
+      f.puts "[buildPlans.iosevka-brew.weights.regular]\nshape=400\ncss=400" if build.with? "weight-regular"
+      f.puts "[buildPlans.iosevka-brew.weights.medium]\nshape=500\ncss=500" if build.with? "weight-medium"
+      f.puts "[buildPlans.iosevka-brew.weights.semibold]\nshape=600\ncss=600" if build.with? "weight-semibold"
+      f.puts "[buildPlans.iosevka-brew.weights.bold]\nshape=700\ncss=700" if build.with? "weight-bold"
+      f.puts "[buildPlans.iosevka-brew.weights.extrabold]\nshape=800\ncss=800" if build.with? "weight-extrabold"
+      f.puts "[buildPlans.iosevka-brew.weights.heavy]\nshape=900\ncss=900" if build.with? "weight-heavy"
       f.puts "\n"
       unless build.without? "slant-upright" and build.without? "slant-italic" and build.without? "slant-oblique"
-        f.puts "[buildPlans.iosevka-brew.slants]" 
-        f.puts "upright = \"normal\"" unless build.without? "slant-upright"
-        f.puts "italic = \"italic\"" unless build.without? "slant-italic"
-        f.puts "oblique = \"oblique\"" unless build.without? "slant-oblique"
+        f.puts "[buildPlans.iosevka-brew.slants]"
+        f.puts "upright = \"normal\"" if build.with? "slant-upright"
+        f.puts "italic = \"italic\"" if build.with? "slant-italic"
+        f.puts "oblique = \"oblique\"" if build.with? "slant-oblique"
       end
-    }
+    end
 
     system "npm", "run", "build", "--", "ttf:iosevka-brew" unless build.with? "woff" or build.with? "woff2"
     system "npm", "run", "build", "--", "woff:iosevka-brew" if build.with? "woff"
