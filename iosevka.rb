@@ -3,8 +3,8 @@ require "language/node"
 class Iosevka < Formula
   desc "Monospace font family for programming built from code"
   homepage "https://be5invis.github.io/Iosevka"
-  # url "https://github.com/be5invis/Iosevka/archive/v2.0.0.tar.gz"
-  # sha256 "4b21d376db601280a4a5ee2a7996819188e8c4a32b7e7e6de16c0a260e0b69fc"
+  url "https://github.com/be5invis/Iosevka/archive/v2.0.1.tar.gz"
+  sha256 "cd18d6696d00903bfdc5e27c16c38ab346745eb7febc34c5c5db17ab3ac3faf0"
   head "https://github.com/be5invis/Iosevka.git"
 
   option "without-sans", "skip building the default sans variant"
