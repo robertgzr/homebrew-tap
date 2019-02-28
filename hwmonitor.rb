@@ -6,7 +6,6 @@ class Hwmonitor < Formula
 
   head "https://github.com/kozlek/HWSensors"
 
-  depends_on :macos => :lion
   depends_on :xcode => :build
 
   def install
