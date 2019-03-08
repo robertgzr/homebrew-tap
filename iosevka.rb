@@ -3,8 +3,8 @@ require "language/node"
 class Iosevka < Formula
   desc "Monospace font family for programming built from code"
   homepage "https://be5invis.github.io/Iosevka"
-  url "https://github.com/be5invis/Iosevka/archive/v2.1.0.tar.gz"
-  sha256 "bac7c7dfa035735bb9ad1ca4821df098971294effeba1295f9dd7624610297ea"
+  url "https://github.com/be5invis/Iosevka/archive/v2.2.0.tar.gz"
+  sha256 "af573349647976d714facbbc8ff13ee14bd050571919aedb5c90681a6f831966"
   head "https://github.com/be5invis/Iosevka.git"
 
   option "without-sans", "skip building the default sans variant"
@@ -59,6 +59,8 @@ class Iosevka < Formula
 
   option "with-asterisk-high"
   option "with-asterisk-low"
+  option "with-asterisk-hexhigh"
+  option "with-asterisk-hexlow"
 
   option "with-paragraph-high"
   option "with-paragraph-low"
@@ -68,6 +70,9 @@ class Iosevka < Formula
 
   option "with-underscore-high"
   option "with-underscore-low"
+
+  option "with-percent-dots"
+  option "with-percent-rings"
 
   option "with-eszet-traditional"
   option "with-eszet-sulzbacher"
@@ -113,6 +118,10 @@ class Iosevka < Formula
   option "with-i-zshaped"
   option "with-i-serified"
   option "with-i-italic"
+  option "with-i-line"
+
+  option "with-j-serifed"
+  option "with-j-line"
 
   option "with-f-straight"
   option "with-f-tailed"
@@ -190,12 +199,16 @@ class Iosevka < Formula
     design << return_variant_if_build_option("tilde-low")
     design << return_variant_if_build_option("asterisk-high")
     design << return_variant_if_build_option("asterisk-low")
+    design << return_variant_if_build_option("asterisk-hexhigh")
+    design << return_variant_if_build_option("asterisk-hexlow")
     design << return_variant_if_build_option("paragraph-high")
     design << return_variant_if_build_option("paragraph-low")
     design << return_variant_if_build_option("caret-high")
     design << return_variant_if_build_option("caret-low")
     design << return_variant_if_build_option("underscore-high")
     design << return_variant_if_build_option("underscore-low")
+    design << return_variant_if_build_option("percent-dots")
+    design << return_variant_if_build_option("percent-rings")
     design << return_variant_if_build_option("eszet-traditional")
     design << return_variant_if_build_option("eszet-sulzbacher")
     design << return_variant_if_build_option("brace-curly")
@@ -229,6 +242,9 @@ class Iosevka < Formula
     design << return_variant_if_build_option("i-zshaped")
     design << return_variant_if_build_option("i-serified")
     design << return_variant_if_build_option("i-italic")
+    design << return_variant_if_build_option("i-line")
+    design << return_variant_if_build_option("j-serified")
+    design << return_variant_if_build_option("j-line")
     design << return_variant_if_build_option("f-straight")
     design << return_variant_if_build_option("f-tailed")
     design << return_variant_if_build_option("y-straight")
