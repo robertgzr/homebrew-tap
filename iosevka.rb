@@ -283,10 +283,10 @@ class Iosevka < Formula
       end
     end
 
-    system "npm", "run", "build", "--", "ttf:iosevka-brew" unless build.with? "woff" or build.with? "woff2"
-    system "npm", "run", "build", "--", "woff:iosevka-brew" if build.with? "woff"
-    system "npm", "run", "build", "--", "woff2:iosevka-brew" if build.with? "woff2"
-    system "npm", "run", "build", "--", "ttf-unhinted:iosevka-brew" if build.with? "unhinted"
+    system "npm", "run", "build", "--", "ttf::iosevka-brew" unless build.with? "woff" or build.with? "woff2"
+    system "npm", "run", "build", "--", "woff::iosevka-brew" if build.with? "woff"
+    system "npm", "run", "build", "--", "woff2::iosevka-brew" if build.with? "woff2"
+    system "npm", "run", "build", "--", "ttf-unhinted::iosevka-brew" if build.with? "unhinted"
 
     share.install Dir["dist/*"]
   end
