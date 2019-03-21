@@ -150,6 +150,10 @@ class Iosevka < Formula
     return "#{prefix}#{val}" if build.with? val
   end
 
+  def return_if_experimental_build_option(val)
+    return val if build.with? "experimental-#{val}"
+  end
+
   def return_variant_if_build_option(val)
     return return_if_build_option(val, "v-")
   end
@@ -255,8 +259,8 @@ class Iosevka < Formula
 
     # experimental width mods (can only apply one at a time)
     # if both we choose expanded
-    with_mod = return_if_build_option("compressed")
-    with_mod = return_if_build_option("expanded")
+    with_mod = return_if_experimental_build_option("compressed")
+    with_mod = return_if_experimental_build_option("expanded")
     design << with_mod unless with_mod.nil?
 
     system "npm", "install", *Language::Node.local_npm_install_args
@@ -283,10 +287,10 @@ class Iosevka < Formula
       end
     end
 
-    system "npm", "run", "build", "--", "ttf:iosevka-brew" unless build.with? "woff" or build.with? "woff2"
-    system "npm", "run", "build", "--", "woff:iosevka-brew" if build.with? "woff"
-    system "npm", "run", "build", "--", "woff2:iosevka-brew" if build.with? "woff2"
-    system "npm", "run", "build", "--", "ttf-unhinted:iosevka-brew" if build.with? "unhinted"
+    system "npm", "run", "build", "--", "ttf::iosevka-brew" unless build.with? "woff" or build.with? "woff2"
+    system "npm", "run", "build", "--", "woff::iosevka-brew" if build.with? "woff"
+    system "npm", "run", "build", "--", "woff2::iosevka-brew" if build.with? "woff2"
+    system "npm", "run", "build", "--", "ttf-unhinted::iosevka-brew" if build.with? "unhinted"
 
     share.install Dir["dist/*"]
   end
