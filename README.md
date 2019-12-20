@@ -22,7 +22,7 @@ This formula builds [Iosevka](https://github.com/be5invis/iosevka) from source.
 Customizations listed in https://github.com/be5invis/Iosevka#build-your-own-style are supported (see [the tracking issue](https://github.com/robertgzr/homebrew-tap/issues/5) for current
 status).
 
-Run `brew info iosevka` to see the options.
+Run `brew info font-iosevka` to see the options.
 
 It is possible to also build Iosevka Slab and the `.woff` web fonts (with the same variants set).
 
