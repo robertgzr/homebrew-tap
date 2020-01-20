@@ -1,9 +1,11 @@
 ### How to use this repository?
+https://github.com/Homebrew/brew/blob/master/docs/Taps.md
+
 ```
 brew tap robertgzr/tap
 brew install iosevka --with-zero-dotted --with-eszet-traditional
 ```
-Run `brew info iosevka` to see the options.
+
 ```
 .
 ├── README.md
@@ -24,6 +26,8 @@ The formula uses my fork of the original repository by [ajd4096](https://github.
 This formula builds [Iosevka](https://github.com/be5invis/iosevka) from source.  
 Customizations listed in https://github.com/be5invis/Iosevka#build-your-own-style are supported (see [the tracking issue](https://github.com/robertgzr/homebrew-tap/issues/5) for current
 status).
+
+Run `brew info iosevka` to see the options.
 
 It is possible to also build Iosevka Slab and the `.woff` web fonts (with the same variants set).
 
