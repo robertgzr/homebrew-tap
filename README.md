@@ -2,11 +2,6 @@
 https://github.com/Homebrew/brew/blob/master/docs/Taps.md
 
 ```
-brew tap robertgzr/tap
-brew install iosevka --with-zero-dotted --with-eszet-traditional
-```
-
-```
 .
 ├── README.md
 ├── bootloadhid.rb
