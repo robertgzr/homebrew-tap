@@ -1,5 +1,5 @@
 ### How to use this repository?
-https://github.com/Homebrew/brew/blob/master/docs/brew-tap.md
+https://github.com/Homebrew/brew/blob/master/docs/Taps.md
 
 ```
 .
