@@ -28,6 +28,6 @@ It is possible to also build Iosevka Slab and the `.woff` web fonts (with the sa
 
 If you don't want to make any modifications you can also just download and install via `brew cask`:
 ```bash
-$ brew tap caskroom/fonts
+$ brew tap homebrew/cask-fonts
 $ brew cask install font-iosevka
 ```
