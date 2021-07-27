@@ -3,13 +3,12 @@ require "language/node"
 class Iosevka < Formula
   desc "Monospace font family for programming built from code"
   homepage "https://be5invis.github.io/Iosevka"
-  url "https://github.com/be5invis/Iosevka/archive/v2.2.0.tar.gz"
-  sha256 "af573349647976d714facbbc8ff13ee14bd050571919aedb5c90681a6f831966"
+  url "https://github.com/be5invis/Iosevka/archive/v8.0.2.tar.gz"
+  sha256 "2b8d9080f94b1492aafeb68b96df0d7ea77884d6f68395fb0c308aad0a9c13ec"
   head "https://github.com/be5invis/Iosevka.git"
 
   option "without-sans", "skip building the default sans variant"
   option "with-slab", "additionally build the serif variant"
-  option "with-woff", "additionally build the webfonts (woff)"
   option "with-woff2", "additionally build the webfonts (woff2)"
   option "with-unhinted", "additionally build unhinted TTF"
 
@@ -24,27 +23,28 @@ class Iosevka < Formula
   option "with-ss09", "build set based on the style of Source Code Pro"
   option "with-ss10", "build set based on the style of Envy Code R"
   option "with-ss11", "build set based on the style of X Windows Fixed"
+  option "with-ss12", "build set based on the style of X Windows Fixed"
+  option "with-ss13", "build set based on the style of X Windows Fixed"
+  option "with-ss14", "build set based on the style of X Windows Fixed"
+  option "with-ss15", "build set based on the style of X Windows Fixed"
+  option "with-ss16", "build set based on the style of X Windows Fixed"
+  option "with-ss17", "build set based on the style of X Windows Fixed"
+  option "with-ss18", "build set based on the style of X Windows Fixed"
+  option "with-ss19", "build set based on the style of X Windows Fixed"
+  option "with-ss20", "build set based on the style of X Windows Fixed"
 
   option "with-term", "disable ligations and exact monospace"
-  option "with-termlig", "like term but ligations are present"
-  option "with-type", "make symbols fullwidth"
-  option "with-stress-fw", "full-width characters varying form U+FF00 to U+FFFF will be boxed to present a clear distinguish between ASCII and Full-width"
+  option "with-fixed", "like term but ligations are present"
 
-  option "with-ligset-haskell", "default ligation set would be assigned to Haskell"
-  option "with-ligset-idris", "default ligation set would be assigned to Idris"
-  option "with-ligset-coq", "default ligation set would be assigned to Coq (contains all possible ligatures)"
-  option "with-ligset-elm", "default ligation set would be assigned to Elm"
-  option "with-ligset-ml", "default ligation set would be assigned to ML"
-  option "with-ligset-fs", "default ligation set would be assigned to F#"
-  option "with-ligset-fstar", "default ligation set would be assigned to F*"
-  option "with-ligset-swift", "default ligation set would be assigned to Swift"
-  option "with-ligset-purescript", "default ligation set would be assigned to PureScript"
-
-  # TODO: leading-*
-  # TODO: powerline-*
-
-  option "with-experimental-expanded", "build with 10% wider characters"
-  option "with-experimental-compressed", "build with 10% narrower characters"
+  # option "with-ligset-haskell", "default ligation set would be assigned to Haskell"
+  # option "with-ligset-idris", "default ligation set would be assigned to Idris"
+  # option "with-ligset-coq", "default ligation set would be assigned to Coq (contains all possible ligatures)"
+  # option "with-ligset-elm", "default ligation set would be assigned to Elm"
+  # option "with-ligset-ml", "default ligation set would be assigned to ML"
+  # option "with-ligset-fs", "default ligation set would be assigned to F#"
+  # option "with-ligset-fstar", "default ligation set would be assigned to F*"
+  # option "with-ligset-swift", "default ligation set would be assigned to Swift"
+  # option "with-ligset-purescript", "default ligation set would be assigned to PureScript"
 
   option "with-zero-dotted"
   option "with-zero-unslashed"
@@ -146,149 +146,120 @@ class Iosevka < Formula
   option "without-slant-italic", "skip building the 'italic' slant vaiant"
   option "without-slant-oblique", "skip building the 'oblique' slant vaiant"
 
-  def return_if_build_option(val, prefix = "")
-    return "#{prefix}#{val}" if build.with? val
+  def design_oneof(assignto, options)
+    val = return_oneof(options, assignto+"-")
+    if val
+      return "#{assignto} = \"#{}\""
+    end
   end
 
-  def return_if_experimental_build_option(val)
-    return val if build.with? "experimental-#{val}"
+  def return_oneof(options, prefix = "")
+    options.each do |o|
+      if build.with? "#{prefix}#{o}"
+        return o
+      end
+    end
+    return nil
   end
 
-  def return_variant_if_build_option(val)
-    return return_if_build_option(val, "v-")
-  end
-
-  depends_on "caryll/tap/otfcc-mac64" => :build
   depends_on "node" => :build
   depends_on "ttfautohint" => :build
 
   def install
-    design = []
-    design << "sans" if build.with? "sans"
-    design << return_if_build_option("slab")
-    # predefined stylistic sets
-    design << return_if_build_option("ss01")
-    design << return_if_build_option("ss02")
-    design << return_if_build_option("ss03")
-    design << return_if_build_option("ss04")
-    design << return_if_build_option("ss05")
-    design << return_if_build_option("ss06")
-    design << return_if_build_option("ss07")
-    design << return_if_build_option("ss08")
-    design << return_if_build_option("ss09")
-    design << return_if_build_option("ss10")
-    design << return_if_build_option("ss11")
-    # ligature/spacing styles
-    design << return_if_build_option("term")
-    design << return_if_build_option("termlig")
-    design << return_if_build_option("type")
-    design << return_if_build_option("stress-fw")
-    design << return_if_build_option("ligset-haskell")
-    design << return_if_build_option("ligset-idris")
-    design << return_if_build_option("ligset-coq")
-    design << return_if_build_option("ligset-elm")
-    design << return_if_build_option("ligset-ml")
-    design << return_if_build_option("ligset-fs")
-    design << return_if_build_option("ligset-fstar")
-    design << return_if_build_option("ligset-swift")
-    design << return_if_build_option("ligset-purescript")
-    # character variants
-    design << return_variant_if_build_option("zero-dotted")
-    design << return_variant_if_build_option("zero-unslashed")
-    design << return_variant_if_build_option("zero-slashed")
-    design << return_variant_if_build_option("at-long")
-    design << return_variant_if_build_option("at-short")
-    design << return_variant_if_build_option("at-fourfold")
-    design << return_variant_if_build_option("tilde-high")
-    design << return_variant_if_build_option("tilde-low")
-    design << return_variant_if_build_option("asterisk-high")
-    design << return_variant_if_build_option("asterisk-low")
-    design << return_variant_if_build_option("asterisk-hexhigh")
-    design << return_variant_if_build_option("asterisk-hexlow")
-    design << return_variant_if_build_option("paragraph-high")
-    design << return_variant_if_build_option("paragraph-low")
-    design << return_variant_if_build_option("caret-high")
-    design << return_variant_if_build_option("caret-low")
-    design << return_variant_if_build_option("underscore-high")
-    design << return_variant_if_build_option("underscore-low")
-    design << return_variant_if_build_option("percent-dots")
-    design << return_variant_if_build_option("percent-rings")
-    design << return_variant_if_build_option("eszet-traditional")
-    design << return_variant_if_build_option("eszet-sulzbacher")
-    design << return_variant_if_build_option("brace-curly")
-    design << return_variant_if_build_option("brace-straight")
-    design << return_variant_if_build_option("g-singlestorey")
-    design << return_variant_if_build_option("g-opendoublestorey")
-    design << return_variant_if_build_option("g-doublestorey")
-    design << return_variant_if_build_option("numbersign-slanted")
-    design << return_variant_if_build_option("numbersign-straight")
-    design << return_variant_if_build_option("dollar-through")
-    design << return_variant_if_build_option("dollar-opencap")
-    design << return_variant_if_build_option("dollar-throughcap")
-    design << return_variant_if_build_option("dollar-open")
-    design << return_variant_if_build_option("q-straight")
-    design << return_variant_if_build_option("q-taily")
-    design << return_variant_if_build_option("t-standard")
-    design << return_variant_if_build_option("t-cross")
-    design << return_variant_if_build_option("three-flattop")
-    design << return_variant_if_build_option("three-twoarcs")
-    design << return_variant_if_build_option("a-singlestorey")
-    design << return_variant_if_build_option("a-doublestorey")
-    design << return_variant_if_build_option("m-shortleg")
-    design << return_variant_if_build_option("m-longleg")
-    design << return_variant_if_build_option("l-hooky")
-    design << return_variant_if_build_option("l-zshaped")
-    design << return_variant_if_build_option("l-serifed")
-    design << return_variant_if_build_option("l-italic")
-    design << return_variant_if_build_option("l-tailed")
-    design << return_variant_if_build_option("l-hookybottom")
-    design << return_variant_if_build_option("i-hooky")
-    design << return_variant_if_build_option("i-zshaped")
-    design << return_variant_if_build_option("i-serified")
-    design << return_variant_if_build_option("i-italic")
-    design << return_variant_if_build_option("i-line")
-    design << return_variant_if_build_option("j-serified")
-    design << return_variant_if_build_option("j-line")
-    design << return_variant_if_build_option("f-straight")
-    design << return_variant_if_build_option("f-tailed")
-    design << return_variant_if_build_option("y-straight")
-    design << return_variant_if_build_option("y-curly")
-    design << return_variant_if_build_option("one-serifed")
-    design << return_variant_if_build_option("one-hooky")
-    design.delete_if &:nil? # cleanup design array
-
-    # experimental width mods (can only apply one at a time)
-    # if both we choose expanded
-    with_mod = return_if_experimental_build_option("compressed")
-    with_mod = return_if_experimental_build_option("expanded")
-    design << with_mod unless with_mod.nil?
-
     system "npm", "install", *Language::Node.local_npm_install_args
     File.open("private-build-plans.toml", "w:UTF-8") do |f|
       f.puts "[buildPlans.iosevka-brew]"
       f.puts "family = \"Iosevka Brew\""
-      f.puts "design = [\"#{design.join('", "')}\"]"
+      f.puts "serifs = \"sans\"" if build.with? "sans" and build.without? "slab"
+      f.puts "serifs = \"slab\"" if build.without? "sans" and build.with? "slab"
+
+      f.puts "[buildPlans.iosevka-brew.variants]"
+      f.puts "inherits = \"#{return_oneof([
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "ss08",
+        "ss09",
+        "ss10",
+        "ss11",
+        "ss12",
+        "ss13",
+        "ss14",
+        "ss15",
+        "ss16",
+        "ss17",
+        "ss18",
+        "ss19",
+        "ss20",
+      ])}\""
+
+      f.puts "[buildPlans.iosevka-brew.variants.design]"
+      f.puts design_oneof("zero", ["dotted", "unslashed", "slashed"])
+      f.puts design_oneof("at", ["long", "short", "fourfold"])
+      f.puts design_oneof("tilde", ["high", "low"])
+      f.puts design_oneof("asterisk", ["high", "low", "hexhigh", "hexlow"])
+      f.puts design_oneof("paragraph", ["high", "low"])
+      f.puts design_oneof("caret", ["high", "low"])
+      f.puts design_oneof("underscore", ["high", "low"])
+      f.puts design_oneof("percent", ["dots", "rings"])
+      f.puts design_oneof("eszet", ["traditional", "sulzbacher"])
+      f.puts design_oneof("brace", ["curly", "straight"])
+      f.puts design_oneof("g", ["singlestorey", "opendoublestorey", "doublestorey"])
+      f.puts design_oneof("numbersign", ["slanted", "straight"])
+      f.puts design_oneof("dollar", ["through", "opencap", "thoughcap", "open"])
+      f.puts design_oneof("q", ["straight", "taily"])
+      f.puts design_oneof("t", ["standard", "cross"])
+      f.puts design_oneof("three", ["flattop", "twoarcs"])
+      f.puts design_oneof("a", ["singlestorey", "doublestorey"])
+      f.puts design_oneof("m", ["shortleg", "longleg"])
+      f.puts design_oneof("l", ["hooky", "zshaped", "serifed", "italic", "tailed", "hookybottom"])
+      f.puts design_oneof("i", ["hooky", "zshaped", "serifed", "italic", "line"])
+      f.puts design_oneof("j", ["serifed", "line"])
+      f.puts design_oneof("j", ["serifed", "line"])
+      f.puts design_oneof("f", ["straight", "tailed"])
+      f.puts design_oneof("y", ["straight", "curly"])
+      f.puts design_oneof("one", ["serifed", "hooky"])
+
       f.puts "\n"
-      f.puts "[buildPlans.iosevka-brew.weights.thin]\nshape=100\ncss=100" if build.with? "weight-thin"
-      f.puts "[buildPlans.iosevka-brew.weights.extralight]\nshape=200\ncss=200" if build.with? "weight-extralight"
-      f.puts "[buildPlans.iosevka-brew.weights.light]\nshape=300\ncss=300" if build.with? "weight-light"
-      f.puts "[buildPlans.iosevka-brew.weights.regular]\nshape=400\ncss=400" if build.with? "weight-regular"
-      f.puts "[buildPlans.iosevka-brew.weights.medium]\nshape=500\ncss=500" if build.with? "weight-medium"
-      f.puts "[buildPlans.iosevka-brew.weights.semibold]\nshape=600\ncss=600" if build.with? "weight-semibold"
-      f.puts "[buildPlans.iosevka-brew.weights.bold]\nshape=700\ncss=700" if build.with? "weight-bold"
-      f.puts "[buildPlans.iosevka-brew.weights.extrabold]\nshape=800\ncss=800" if build.with? "weight-extrabold"
-      f.puts "[buildPlans.iosevka-brew.weights.heavy]\nshape=900\ncss=900" if build.with? "weight-heavy"
+      f.puts "[buildPlans.iosevka-brew.weights.thin]\nshape=100\ncss=100\nmenu=100" if build.with? "weight-thin"
+      f.puts "[buildPlans.iosevka-brew.weights.extralight]\nshape=200\ncss=200\nmenu=200" if build.with? "weight-extralight"
+      f.puts "[buildPlans.iosevka-brew.weights.light]\nshape=300\ncss=300\nmenu=300" if build.with? "weight-light"
+      f.puts "[buildPlans.iosevka-brew.weights.regular]\nshape=400\ncss=400\nmenu=400" if build.with? "weight-regular"
+      f.puts "[buildPlans.iosevka-brew.weights.medium]\nshape=500\ncss=500\nmenu=500" if build.with? "weight-medium"
+      f.puts "[buildPlans.iosevka-brew.weights.semibold]\nshape=600\ncss=600\nmenu=600" if build.with? "weight-semibold"
+      f.puts "[buildPlans.iosevka-brew.weights.bold]\nshape=700\ncss=700\nmenu=700" if build.with? "weight-bold"
+      f.puts "[buildPlans.iosevka-brew.weights.extrabold]\nshape=800\ncss=800\nmenu=800" if build.with? "weight-extrabold"
+      f.puts "[buildPlans.iosevka-brew.weights.heavy]\nshape=900\ncss=900\nmenu=900" if build.with? "weight-heavy"
       f.puts "\n"
-      unless build.without? "slant-upright" and build.without? "slant-italic" and build.without? "slant-oblique"
-        f.puts "[buildPlans.iosevka-brew.slants]"
-        f.puts "upright = \"normal\"" if build.with? "slant-upright"
-        f.puts "italic = \"italic\"" if build.with? "slant-italic"
-        f.puts "oblique = \"oblique\"" if build.with? "slant-oblique"
+
+      if build.with? "slant-upright"
+        f.puts "[buildPlans.iosevka-brew.slopes.upright]"
+        f.puts "angle = 0"
+        f.puts "shape = \"upright\""
+        f.puts "menu = \"upright\""
+        f.puts "css = \"normal\""
+      end
+      if build.with? "slant-italic"
+        f.puts "[buildPlans.iosevka-brew.slopes.italic]"
+        f.puts "angle = 9.4"
+        f.puts "shape = \"italic\""
+        f.puts "menu = \"italic\""
+        f.puts "css = \"italic\""
+      end
+      if build.with? "slant-oblique"
+        f.puts "[buildPlans.iosevka-brew.slopes.oblique]"
+        f.puts "angle = 9.4"
+        f.puts "shape = \"oblique\""
+        f.puts "menu = \"oblique\""
+        f.puts "css = \"oblique\""
       end
     end
 
     system "npm", "run", "build", "--", "ttf::iosevka-brew" unless build.with? "woff" or build.with? "woff2"
-    system "npm", "run", "build", "--", "woff::iosevka-brew" if build.with? "woff"
     system "npm", "run", "build", "--", "woff2::iosevka-brew" if build.with? "woff2"
     system "npm", "run", "build", "--", "ttf-unhinted::iosevka-brew" if build.with? "unhinted"
 
